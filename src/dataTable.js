@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { useStore } from './store';
 import { Table, Button, Modal, Popconfirm } from 'antd';
 import { axiosInstance } from "./connection";
 import { EditForm } from "./editForm";
@@ -15,32 +14,46 @@ export function DataTable(props) {
   const [deleteRequest, setDeleteRequest] = useState(0);
 
   const handleDelete = rowid => setDeleteRequest(rowid);
-  /*const doDelete = rowid => {
-    (async () => {
-      await axiosInstance.delete(`todo/${rowid}`);
-      let rows = [...data.filter(record => record.key !== rowid)];
-      setData(rows);
-    })();
+  const doDelete = rowid => {
+    console.log(deleteRequest);
+    if (deleteRequest > 0) {
+      (async () => {
+        await axiosInstance.delete(`todo/${rowid}`);
+        let rows = [...data.filter(record => record.key !== rowid)];
+        setData(rows);
+      })();  
+    }
   };
 
-  useEffect(() => doDelete(deleteRequest), [deleteRequest]);*/
+  useEffect(() => doDelete(deleteRequest), [deleteRequest]);
 
   useEffect(() => {
-    if (props.columns && props.data) {
-      const columns = props.columns;
-      /*columns.push({
-        title: '...',
-        dataIndex: 'operation',
-        render: (text, record) =>
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
-          </Popconfirm>
-      });*/
+    if (props.data) {
+      const columns = [
+        {
+          title: 'Content',
+          dataIndex: 'content',
+          key: 'content',
+        },
+        {
+          title: 'Completed',
+          dataIndex: 'completed',
+          key: 'completed',
+        },
+        {
+          title: '...',
+          dataIndex: 'operation',
+          render: (text, record) =>
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+              <a>Delete</a>
+            </Popconfirm>
+        }
+      ];
       setColumns(columns);
       const data = props.data.map(row => ({ ...row, key: row.rowid }));
       setData(data);
     }
-  }, [props.columns, props.data]);
+  }, [props.data]);
 
   const doEditOk = () => {
     setSubmitFlag(submitFlag + 1);
@@ -73,6 +86,7 @@ export function DataTable(props) {
         <Table
           columns={columns}
           dataSource={data}
+          pagination={false}
           scroll={{ y: 240 }} />
         <Modal
           title="New Todo"
