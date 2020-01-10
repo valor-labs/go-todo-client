@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Table, Button, Modal, Popconfirm } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
 import { axiosInstance } from "./connection";
 import { EditForm } from "./editForm";
 
@@ -12,20 +12,33 @@ export function DataTable(props) {
   const [columns, setColumns] = useState();
   const [data, setData] = useState();
   const [deleteRequest, setDeleteRequest] = useState(0);
+  const [completeRequest, setCompleteRequest] = useState(0);
 
   const handleDelete = rowid => setDeleteRequest(rowid);
+  const handleComplete = rowid => setCompleteRequest(rowid);
   const doDelete = rowid => {
-    console.log(deleteRequest);
     if (deleteRequest > 0) {
       (async () => {
         await axiosInstance.delete(`todo/${rowid}`);
         let rows = [...data.filter(record => record.key !== rowid)];
         setData(rows);
+      })();
+    }
+  };
+  const doComplete = rowid => {
+    if (completeRequest > 0) {
+      (async () => {
+        const index = data.findIndex(r => r.rowid === rowid);
+        const newData = Object.assign({}, data[index]);
+        newData.completed = 1;
+        await axiosInstance.put(`todo/${rowid}`, newData);
+        setData(data.map(r => r.rowid === rowid ? newData : r));
       })();  
     }
   };
 
   useEffect(() => doDelete(deleteRequest), [deleteRequest]);
+  useEffect(() => doComplete(completeRequest), [completeRequest]);
 
   useEffect(() => {
     if (props.data) {
@@ -36,9 +49,15 @@ export function DataTable(props) {
           key: 'content',
         },
         {
-          title: 'Completed',
+          title: ' ',
           dataIndex: 'completed',
-          key: 'completed',
+          render: (text, record) => (
+            text == "0" ? (
+            <Button type="primary" onClick={() => handleComplete(record.key)}>Complete</Button>
+            ) : (
+                <Tag color={'blue'}>Completed</Tag>
+              )
+          )
         },
         {
           title: '...',
@@ -51,6 +70,7 @@ export function DataTable(props) {
       ];
       setColumns(columns);
       const data = props.data.map(row => ({ ...row, key: row.rowid }));
+      console.log(data);
       setData(data);
     }
   }, [props.data]);
