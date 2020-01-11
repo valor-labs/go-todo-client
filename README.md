@@ -1,68 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# go-todo-client
 
-## Available Scripts
+This repository contains a Web application that illustrates how to work with simple todos via Rest API.
 
-In the project directory, you can run:
+The demo example is [here](https://vs-work.github.io/go-todo-client/)
 
-### `yarn start`
+## Functionality
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Create a Todo
+2. Set a Todo as completed
+3. Change Todo's priority
+4. Delete a Todo
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Install and run locally.
 
-### `yarn test`
+1. `git clone git@github.com:VS-work/go-todo-client.git`
+2. `cd go-todo-client`
+3. `npm install`
+4. `npm start`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Important notes
 
-### `yarn build`
+* If you want to use the application locally please, run [API server](https://github.com/VS-work/go-todo-server) before. See `Important notes regarding install`, `Build`, and `Run locally`.
+* In this case API will be available on http://localhost:3001
+* Also, see [this](https://github.com/VS-work/go-todo-client/blob/master/.env.development) setting
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How it uses API
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+1. Create a Todo [https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L115](https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L115)
+2. Set a Todo as completed [https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L32](https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L32)
+3. Change Todo's priority [https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L43](https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L43)
+4. Delete a Todo [https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L26](https://github.com/VS-work/go-todo-client/blob/master/src/dataTable.js#L26)
+5. Get Todos [https://github.com/VS-work/go-todo-client/blob/master/src/appLayout.js#L17](https://github.com/VS-work/go-todo-client/blob/master/src/appLayout.js#L17)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deployment
 
-### `yarn eject`
+We use github as a hosting. So, the following command will deploy the application:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`npm run deploy`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Demo example will be available on [https://vs-work.github.io/go-todo-client/](https://vs-work.github.io/go-todo-client/) after that and it will use `https://dry-woodland-14649.herokuapp.com` as API. More info [here](https://github.com/VS-work/go-todo-client/blob/master/.env.production).
