@@ -29,6 +29,7 @@ function EditFormSrc(props) {
           rules: [{ required: true, message: 'Please input content!' }],
         })(
           <Input
+            autoFocus
             placeholder="Content"
           />,
         )}
