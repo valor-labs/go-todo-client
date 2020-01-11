@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export const baseUrl = 'https://dry-woodland-14649.herokuapp.com';
+require('dotenv').config();
+
+export const baseUrl = process.env.REACT_APP_API_URL;
+
+console.log(111, baseUrl, process.env);
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,

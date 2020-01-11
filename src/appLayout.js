@@ -5,7 +5,7 @@ import { Layout, Spin } from 'antd';
 import { axiosInstance } from "./connection";
 import { DataTable } from './dataTable';
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 export function AppLayout() {
   const [data, setData] = useState(null);
