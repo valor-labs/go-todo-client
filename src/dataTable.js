@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Table, Button, Modal, Popconfirm, Tag, Radio, Icon } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag, Radio } from 'antd';
 import { axiosInstance } from "./connection";
 import { EditForm } from "./editForm";
 
@@ -129,12 +129,7 @@ export function DataTable(props) {
   return (
     !columns ? (<></>) :
       <div>
-        <Button onClick={addNewRow} type="primary" style={{ margin: 10 }}>
-          New
-            </Button>
-        <Button type="secondary" style={{ margin: 10 }}>
-          Refresh
-            </Button>
+        <Button onClick={addNewRow} type="primary" style={{ margin: 10 }}>Add new Todo</Button>
         <Table
           columns={columns}
           dataSource={data}
