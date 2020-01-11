@@ -102,7 +102,6 @@ export function DataTable(props) {
       ];
       setColumns(columns);
       const data = props.data.map(row => ({ ...row, key: row.rowid }));
-      console.log(data);
       setData(data);
     }
   }, [props.data]);
