@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Table, Button, Modal, Popconfirm, Tag } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag, Radio, Icon } from 'antd';
 import { axiosInstance } from "./connection";
 import { EditForm } from "./editForm";
 
@@ -13,9 +13,13 @@ export function DataTable(props) {
   const [data, setData] = useState();
   const [deleteRequest, setDeleteRequest] = useState(0);
   const [completeRequest, setCompleteRequest] = useState(0);
+  const [priorityRequest, setPriorityRequest] = useState(null);
+
+  const priorities = ["Normal", "Low", "High"];
 
   const handleDelete = rowid => setDeleteRequest(rowid);
   const handleComplete = rowid => setCompleteRequest(rowid);
+  const handleChangePriority = (e, rowid) => setPriorityRequest({ e, rowid });
   const doDelete = rowid => {
     if (deleteRequest > 0) {
       (async () => {
@@ -33,12 +37,24 @@ export function DataTable(props) {
         newData.completed = 1;
         await axiosInstance.put(`todo/${rowid}`, newData);
         setData(data.map(r => r.rowid === rowid ? newData : r));
-      })();  
+      })();
+    }
+  };
+  const doChangePriority = (desc) => {
+    if (desc !== null) {
+      (async () => {
+        const index = data.findIndex(r => r.rowid === desc.rowid);
+        const newData = Object.assign({}, data[index]);
+        newData.priority = desc.e.target.value;
+        await axiosInstance.put(`todo/${desc.rowid}`, newData);
+        setData(data.map(r => r.rowid === desc.rowid ? newData : r));
+      })();
     }
   };
 
   useEffect(() => doDelete(deleteRequest), [deleteRequest]);
   useEffect(() => doComplete(completeRequest), [completeRequest]);
+  useEffect(() => doChangePriority(priorityRequest), [priorityRequest]);
 
   useEffect(() => {
     if (props.data) {
@@ -49,11 +65,27 @@ export function DataTable(props) {
           key: 'content',
         },
         {
-          title: ' ',
+          title: 'Priority',
+          dataIndex: 'priority',
+          render: (text, record) => (
+            record.completed != 0 ? (
+              <div>{priorities[record.priority]}</div>
+            ) :
+              (
+                <Radio.Group defaultValue={record.priority} onChange={(e) => handleChangePriority(e, record.key)} >
+                  <Radio.Button value={1}>Low</Radio.Button>
+                  <Radio.Button value={0}>Normal</Radio.Button>
+                  <Radio.Button value={2}>High</Radio.Button>
+                </Radio.Group>
+              )
+          ),
+        },
+        {
+          title: 'Status',
           dataIndex: 'completed',
           render: (text, record) => (
             text == "0" ? (
-            <Button type="primary" onClick={() => handleComplete(record.key)}>Complete</Button>
+              <Button type="primary" onClick={() => handleComplete(record.key)}>Complete</Button>
             ) : (
                 <Tag color={'blue'}>Completed</Tag>
               )
