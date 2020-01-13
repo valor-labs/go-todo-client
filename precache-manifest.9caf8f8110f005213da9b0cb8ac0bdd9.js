@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8af8470d402454087cdf1ca4734c7a2c",
+    "revision": "40e6df0481a37753a9144aeea6f3b8c1",
     "url": "/go-todo-client/index.html"
   },
   {
-    "revision": "13de17c81b0aeac0f85a",
+    "revision": "a5fdae720fb4905640dc",
     "url": "/go-todo-client/static/css/2.bea6f0b1.chunk.css"
   },
   {
-    "revision": "d975e40c1b8089b0221b",
+    "revision": "054470416033d6ec8a41",
     "url": "/go-todo-client/static/css/main.a3bfdbb4.chunk.css"
   },
   {
-    "revision": "13de17c81b0aeac0f85a",
-    "url": "/go-todo-client/static/js/2.42927da8.chunk.js"
+    "revision": "a5fdae720fb4905640dc",
+    "url": "/go-todo-client/static/js/2.01cf49c1.chunk.js"
   },
   {
     "revision": "4aa0fe1eaee3dcf45338a38641d40f08",
-    "url": "/go-todo-client/static/js/2.42927da8.chunk.js.LICENSE"
+    "url": "/go-todo-client/static/js/2.01cf49c1.chunk.js.LICENSE"
   },
   {
-    "revision": "d975e40c1b8089b0221b",
-    "url": "/go-todo-client/static/js/main.e51156d4.chunk.js"
+    "revision": "054470416033d6ec8a41",
+    "url": "/go-todo-client/static/js/main.fca62efc.chunk.js"
   },
   {
     "revision": "fde5b679f0e996cb1cac",
