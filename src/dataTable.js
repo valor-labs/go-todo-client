@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Table, Button, Modal, Popconfirm, Tag, Radio } from 'antd';
+import { Table, Button, Modal, Popconfirm, Tag, Radio, notification } from 'antd';
 import { axiosInstance } from "./connection";
 import { EditForm } from "./editForm";
 
@@ -23,31 +23,46 @@ export function DataTable(props) {
   const doDelete = rowid => {
     if (deleteRequest > 0) {
       (async () => {
-        await axiosInstance.delete(`todo/${rowid}`);
-        let rows = [...data.filter(record => record.key !== rowid)];
-        setData(rows);
+        try {
+          await axiosInstance.delete(`todo/${rowid}`);
+          let rows = [...data.filter(record => record.key !== rowid)];
+          setData(rows);  
+        } catch (e) {
+          console.error(e);
+          notification.open({message: "API issue", description: "Data removing error..."});
+        }
       })();
     }
   };
   const doComplete = rowid => {
     if (completeRequest > 0) {
       (async () => {
-        const index = data.findIndex(r => r.rowid === rowid);
-        const newData = Object.assign({}, data[index]);
-        newData.completed = 1;
-        await axiosInstance.put(`todo/${rowid}`, newData);
-        setData(data.map(r => r.rowid === rowid ? newData : r));
+        try {
+          const index = data.findIndex(r => r.rowid === rowid);
+          const newData = Object.assign({}, data[index]);
+          newData.completed = 1;
+          await axiosInstance.put(`todo/${rowid}`, newData);
+          setData(data.map(r => r.rowid === rowid ? newData : r));  
+        } catch (e) {
+          console.error(e);
+          notification.open({message: "API issue", description: "Data modification error..."});
+        }
       })();
     }
   };
   const doChangePriority = (desc) => {
     if (desc !== null) {
       (async () => {
-        const index = data.findIndex(r => r.rowid === desc.rowid);
-        const newData = Object.assign({}, data[index]);
-        newData.priority = desc.e.target.value;
-        await axiosInstance.put(`todo/${desc.rowid}`, newData);
-        setData(data.map(r => r.rowid === desc.rowid ? newData : r));
+        try {
+          const index = data.findIndex(r => r.rowid === desc.rowid);
+          const newData = Object.assign({}, data[index]);
+          newData.priority = desc.e.target.value;
+          await axiosInstance.put(`todo/${desc.rowid}`, newData);
+          setData(data.map(r => r.rowid === desc.rowid ? newData : r));  
+        } catch (e) {
+          console.error(e);
+          notification.open({message: "API issue", description: "Data modification error..."});
+        }
       })();
     }
   };
@@ -112,11 +127,16 @@ export function DataTable(props) {
 
   const handleEditOk = (formData) => {
     (async () => {
-      const res = await axiosInstance.post(`todo`, formData);
-      const newRecord = res.data;
-      newRecord.key = newRecord.rowid;
-      setData([newRecord, ...data]);
-      setEditVisible(false);
+      try {
+        const res = await axiosInstance.post(`todo`, formData);
+        const newRecord = res.data;
+        newRecord.key = newRecord.rowid;
+        setData([newRecord, ...data]);
+        setEditVisible(false);  
+      } catch (e) {
+        console.error(e);
+        notification.open({message: "API issue", description: "Data creation error..."});
+      }
     })();
   };
 

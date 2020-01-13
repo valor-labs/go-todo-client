@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Layout, Spin } from 'antd';
+import { Layout, Spin, notification } from 'antd';
 import { axiosInstance } from "./connection";
 import { DataTable } from './dataTable';
 
@@ -13,10 +13,15 @@ export function AppLayout() {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      const content = await axiosInstance.get(`todos`);
-      setData(content.data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const content = await axiosInstance.get(`todos`);
+        setData(content.data);
+        setLoading(false);  
+      } catch (e) {
+        console.error(e);
+        notification.open({message: "API issue", description: "Data reading error..."});
+      }
     })();
   }, []);
 
